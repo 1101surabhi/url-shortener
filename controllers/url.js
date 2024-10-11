@@ -6,14 +6,15 @@ const getNewShortUrl = async (req, res) => {
     if (!url) return res.status(400).json({msg: "url is required."}) ;
 
     const shortId = shortid(8) ;
-
     const newUrl = await URL.create({
         shortId : shortId ,
         redirectUrl : url ,
-        visitHistory : []
+        visitHistory : [],
+        createdBy: req.user._id,
     })
 
-    return res.status(200).json({msg: "id created successfully!", id: shortId})
+    return res.render("home", {id : shortId})
+    // return res.status(200).json({msg: "id created successfully!", id: shortId})
 }
 
 const getAnalytics = async (req, res) => {
